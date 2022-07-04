@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>keven开发的一段代码</div>
     <!-- :data="tableData" -->
     <el-table border style="width: 100%;margin-top:20px;" :data="records">
       <el-table-column type="index" label="序号" width="80">
@@ -29,8 +30,6 @@
       </el-table-column>
     </el-table>
     <!-- 分页器-->
-    <div>aqinaaa开发了一行代码</div>
-    <div>aqinaaa开发了一行代码</div>
     <el-pagination :current-page="page" :page-sizes="[5, 10, 15]" :page-size="limit"
       layout=" prev, pager, next, jumper,->, sizes,total" :total="400" align="center" style="margin:10px 0"
       @size-change="handleSizeChange" @current-change="getData">

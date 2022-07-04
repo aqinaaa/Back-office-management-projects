@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import { done } from 'nprogress';
 import skuForm from './skuForm'
 import spuForm from './spuForm'
 export default {
