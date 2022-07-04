@@ -1,48 +1,37 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <!-- el-form组件表单：element插件里面的一个组件，经常展示表单元素 -->
+    <!-- :model="loginForm"是在收集数据到data中 -->
+    <!-- :rules element的是表单验证规则 -->
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
+      label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">登录</h3>
       </div>
-
+      <!-- 用户名 -->
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
+        <el-input ref="username" v-model="loginForm.username" placeholder="Username" name="username" type="text"
+          tabindex="1" auto-complete="on" />
       </el-form-item>
-
+      <!-- 密码 -->
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
+        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType"
+          placeholder="Password" name="password" tabindex="2" auto-complete="on" @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
+      <!-- 登录 -->
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleLogin">登录</el-button>
+      <!-- 提示 -->
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
@@ -58,6 +47,7 @@ import { validUsername } from '@/utils/validate'
 export default {
   name: 'Login',
   data() {
+    // 姓名的表单验证
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
         callback(new Error('Please enter the correct user name'))
@@ -65,6 +55,7 @@ export default {
         callback()
       }
     }
+    // 密码的表单验证
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('The password can not be less than 6 digits'))
@@ -73,6 +64,7 @@ export default {
       }
     }
     return {
+      // 保存一个admin超级管理员的账号和密码
       loginForm: {
         username: 'admin',
         password: '111111'
@@ -88,7 +80,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -105,17 +97,25 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // 登录业务
     handleLogin() {
+      //如果账号密码loginForm正确，
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          // loading效果
           this.loading = true
+          // 派发action接口请求：user/login表示仓库中的user文件下的login函数，因为启用了命名空间，所以需要带路径
           this.$store.dispatch('user/login', this.loginForm).then(() => {
+            // 如果成功，路由跳转
             this.$router.push({ path: this.redirect || '/' })
+            // loading加载结束
             this.loading = false
           }).catch(() => {
+            // 朴捉错误，函数请求失败，loading结束
             this.loading = false
           })
         } else {
+          // 账号密码验证失败
           console.log('error submit!!')
           return false
         }
@@ -129,8 +129,8 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -158,7 +158,7 @@ $cursor: #fff;
 
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        -webkit-text-fill-color: $cursor  !important;
       }
     }
   }
@@ -173,14 +173,16 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
+  background: url('~@/assets/pic505.jpg');
+  background-size: 100% 100%; //设置两个100%表示宽和高都是100%比例
   overflow: hidden;
 
   .login-form {
