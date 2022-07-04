@@ -29,6 +29,8 @@
       </el-table-column>
     </el-table>
     <!-- 分页器-->
+    <div>aqinaaa开发了一行代码</div>
+    <div>aqinaaa开发了一行代码</div>
     <el-pagination :current-page="page" :page-sizes="[5, 10, 15]" :page-size="limit"
       layout=" prev, pager, next, jumper,->, sizes,total" :total="400" align="center" style="margin:10px 0"
       @size-change="handleSizeChange" @current-change="getData">
